@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator markdown {
+  provider = "prisma-markdown"
+  output   = "./ERD.md"
+  title    = "ERD"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model config {
+  id          Int           @id
+  type        config_type
+  name        String        @db.VarChar(64)
+  description String        @db.VarChar(255)
+  parent_id   Int?
+  createdAt   DateTime      @db.DateTime(0)
+  updatedAt   DateTime      @db.DateTime(0)
+  domainEvent domainEvent[]
+  user_role   user_role[]
+
+  @@index([parent_id], map: "idx_config_parent_id")
+  @@index([type], map: "idx_config_type")
+}
+
+model domainEvent {
+  id           Int                   @id @default(autoincrement())
+  aggregate    domainEvent_aggregate
+  aggregate_id Int
+  config_id    Int
+  status       domainEvent_status
+  errorLog     String?               @db.VarChar(10000)
+  processedAt  DateTime?             @db.DateTime(0)
+  createdAt    DateTime              @db.DateTime(0)
+  config       config                @relation(fields: [config_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_domainEvent_config_id")
+
+  @@index([config_id], map: "fk_domainEvent_config_id")
+  @@index([status], map: "idx_domainEvent_status")
+}
+
+model news {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  contents  String   @db.Text
+  school_id Int
+  admin_id  Int
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+
+  @@index([admin_id], map: "idx_news_admin_id")
+  @@index([school_id], map: "idx_news_school_id")
+}
+
+model school {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(32)
+  region    String   @db.VarChar(32)
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+}
+
+model subscribe {
+  id        Int      @id @default(autoincrement())
+  school_id Int
+  user_id   Int
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+
+  @@unique([school_id, user_id], map: "ux_subscribe_school_id_user_id")
+  @@index([school_id], map: "idx_subscribe_school_id")
+  @@index([user_id], map: "idx_subscribe_user_id")
+}
+
+model subscribe_status {
+  id           Int @id @default(autoincrement())
+  subscribe_id Int
+  config_id    Int
+
+  @@unique([subscribe_id, config_id], map: "ux_subscribe_status_subscribe_id_config_id")
+}
+
+model user {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique(map: "ux_user_email") @db.VarChar(32)
+  password  String      @db.VarChar(255)
+  name      String      @db.VarChar(32)
+  createdAt DateTime    @db.DateTime(0)
+  updatedAt DateTime    @db.DateTime(0)
+  user_role user_role[]
+}
+
+model user_role {
+  id        Int    @id @default(autoincrement())
+  user_id   Int
+  config_id Int
+  config    config @relation(fields: [config_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role_config_id")
+  user      user   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role_user_id")
+
+  @@unique([user_id, config_id], map: "ux_user_role_user_id_config_id")
+  @@index([config_id], map: "fk_user_role_config_id")
+}
+
+enum config_type {
+  domainEvent
+  subscribe_status
+  user_role
+}
+
+enum domainEvent_aggregate {
+  news
+  school
+  subscribe
+  user
+}
+
+enum domainEvent_status {
+  ready
+  progress
+  done
+  fail
+}
