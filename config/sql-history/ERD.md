@@ -50,8 +50,8 @@ erDiagram
 }
 "subscribe_status" {
   Int id PK
-  Int subscribe_id
-  Int config_id
+  Int subscribe_id FK
+  Int config_id FK
 }
 "user" {
   Int id PK
@@ -67,6 +67,8 @@ erDiagram
   Int config_id FK
 }
 "domainEvent" }o--|| "config" : config
+"subscribe_status" }o--|| "config" : config
+"subscribe_status" |o--|| "subscribe" : subscribe
 "user_role" }o--|| "config" : config
 "user_role" }o--|| "user" : user
 ```

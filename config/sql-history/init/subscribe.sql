@@ -23,21 +23,21 @@ CREATE TABLE `subscribe_status`(
 	`subscribe_id` Int( 0 ) NOT NULL,
 	`config_id` Int( 0 ) NOT NULL,
 	PRIMARY KEY ( `id` ),
-	CONSTRAINT `ux_subscribe_status_subscribe_id_config_id` UNIQUE( `subscribe_id`, `config_id` ) )
+	CONSTRAINT `ux_subscribe_status_subscribe_id` UNIQUE( `subscribe_id` ) )
 CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
 ENGINE = InnoDB;-- -------------------------------------------------------------
 
--- CREATE LINK "fk_subscribe_config_id" --------------------------
-ALTER TABLE `subscribe`
-	ADD CONSTRAINT `fk_subscribe_config_id` FOREIGN KEY ( `config_id` )
+-- CREATE LINK "fk_subscribe_status_config_id" --------------------------
+ALTER TABLE `subscribe_status`
+	ADD CONSTRAINT `fk_subscribe_status_config_id` FOREIGN KEY ( `config_id` )
 	REFERENCES `config`( `id` )
 	ON DELETE No Action
 	ON UPDATE No Action;-- -------------------------------------------------------------
 
--- CREATE LINK "fk_subscribe_subscribe_id" ----------------------------
-ALTER TABLE `subscribe`
-	ADD CONSTRAINT `fk_subscribe_subscribe_id` FOREIGN KEY ( `subscribe_id` )
+-- CREATE LINK "fk_subscribe_status_subscribe_id" ----------------------------
+ALTER TABLE `subscribe_status`
+	ADD CONSTRAINT `fk_subscribe_status_subscribe_id` FOREIGN KEY ( `subscribe_id` )
 	REFERENCES `subscribe`( `id` )
 	ON DELETE No Action
 	ON UPDATE No Action;-- -------------------------------------------------------------
