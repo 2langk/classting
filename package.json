@@ -10,7 +10,8 @@
     "format": "prettier --write \"src/**/*.ts\" && eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "start": "node --env-file=config/dotenv/.env.production dist/main.js",
-    "dev": "tsnd --env-file=config/dotenv/.env.local --respawn --rs src/main.ts"
+    "dev": "tsnd --env-file=config/dotenv/.env.local --respawn --rs src/main.ts",
+    "gen:env": "dotenv-const -f ./config/dotenv/.env.local -o ./src/@libs/common/environment.ts"
   },
   "dependencies": {
     "@nestia/core": "^2.5.15",
@@ -33,6 +34,7 @@
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "dotenv-const": "^0.0.5",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
