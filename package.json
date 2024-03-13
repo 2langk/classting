@@ -11,10 +11,13 @@
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "start": "node --env-file=config/dotenv/.env.production dist/main.js",
     "dev": "tsnd --env-file=config/dotenv/.env.local --respawn --rs src/main.ts",
+    "test": "tsnd --env-file=config/dotenv/.env.test --respawn --rs src/main.ts",
     "gen:env": "dotenv-const -f ./config/dotenv/.env.local -o ./src/@libs/common/environment.ts",
     "gen:enum": "tsnd --env-file=config/dotenv/.env.local config/script/generate-config-enum.ts",
     "gen:prisma": "tsnd --env-file=config/dotenv/.env.local config/script/generate-prisma-client.ts",
-    "gen:sdk": "tsnd --env-file=config/dotenv/.env.local config/script/generate-sdk.ts"
+    "gen:sdk": "tsnd --env-file=config/dotenv/.env.local config/script/generate-sdk.ts",
+    "init:db:local": "tsnd --env-file=config/dotenv/.env.local config/script/init-database.ts",
+    "init:db:test": "tsnd --env-file=config/dotenv/.env.test config/script/init-database.ts"
   },
   "dependencies": {
     "@fxts/core": "^0.24.0",
@@ -66,7 +69,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -75,6 +78,14 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/test/"
+    ],
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/src/$1",
+      "^test/(.*)$": "<rootDir>/test/$1"
+    }
   }
 }
