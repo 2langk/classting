@@ -31,6 +31,8 @@ export class NewsController {
    *
    * @tag News
    *
+   * @security bearer
+   *
    * @param data 소식 생성에 필요한 정보
    *
    * @return 소식 id
@@ -47,6 +49,8 @@ export class NewsController {
    * - 해당 소식의 작성자만 가능합니다.
    *
    * @tag News
+   *
+   * @security bearer
    *
    * @param data 소식 수정에 필요한 정보
    *
@@ -67,6 +71,8 @@ export class NewsController {
    * - 해당 소식의 작성자만 가능합니다.
    *
    * @tag News
+   *
+   * @security bearer
    *
    * @return 소식 id
    */

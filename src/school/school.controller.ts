@@ -28,6 +28,8 @@ export class SchoolController {
    *
    * @tag School
    *
+   * @security bearer
+   *
    * @param data 학교 생성에 필요한 정보
    *
    * @return 학교 id
