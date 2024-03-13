@@ -21,18 +21,20 @@ export class AllExceptionFilter implements ExceptionFilter {
       });
     }
 
+    // input validation exception
+    if ((exception as any)?.response?.path) {
+      return res.status(400).json(new AppException('invalid request data.'));
+    }
+
     // nestjs exception
     if (exception instanceof HttpException) {
+      console.log(exception);
+
       return res.status(exception.getStatus()).json({
         statusCode: exception.getStatus(),
         name: exception.name,
         message: exception.message,
       });
-    }
-
-    // input validation exception
-    if ((exception as any)?.response?.path) {
-      return res.status(400).json(new AppException('invalid request data.'));
     }
 
     console.log(`[ERROR] ${exception.message ?? exception}`);

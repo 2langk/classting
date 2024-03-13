@@ -13,4 +13,6 @@ async function bootstrap() {
   await app.listen(4000);
 }
 
-bootstrap().then(() => console.log(`[${environment.node.env}] Server is running on 4000`));
+bootstrap().then(() =>
+  console.log(`[${environment.node.env.toLocaleUpperCase()}] Server is running on 4000`),
+);
