@@ -29,7 +29,7 @@ export { api, HttpError, IConnection, Primitive };
   execSync(`nestia sdk`);
 
   // 2. sdk
-  const sdkOutputPath = `sdk`;
+  const sdkOutputPath = `test/@sdk`;
 
   await fs.rm(sdkOutputPath, { recursive: true }).catch((err) => {
     if (err.code !== 'ENOENT') throw err;
