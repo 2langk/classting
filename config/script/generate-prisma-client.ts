@@ -4,8 +4,7 @@ import { environment } from '@libs/common';
 
 const { username, password, host, port, name } = environment.database;
 
-process.env['DATABASE_URL'] =
-  `mysql://${username}:${password}@${host}:${port}/${name}`;
+process.env['DATABASE_URL'] = `mysql://${username}:${password}@${host}:${port}/${name}`;
 
 console.log('Build prisma client...');
 

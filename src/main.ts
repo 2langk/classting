@@ -8,6 +8,4 @@ async function bootstrap() {
   await app.listen(3000);
 }
 
-bootstrap().then(() =>
-  console.log(`[${environment.node.env}] Server is running on 3000`),
-);
+bootstrap().then(() => console.log(`[${environment.node.env}] Server is running on 3000`));

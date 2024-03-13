@@ -1,15 +1,7 @@
 import { execSync } from 'child_process';
 import { rm, writeFile } from 'fs/promises';
 
-import {
-  entries,
-  fromEntries,
-  groupBy,
-  isArray,
-  map,
-  pipe,
-  reduce,
-} from '@fxts/core';
+import { entries, fromEntries, groupBy, isArray, map, pipe, reduce } from '@fxts/core';
 import { environment } from '@libs/common';
 import { config, config_type, PrismaClient } from '@prisma/client';
 
@@ -81,9 +73,7 @@ function convertToTree(configs: config[]) {
 
 function snakeToPascal(snakeCaseString: string): string {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const camelCaseString = snakeCaseString.replace(/(\_\w)/g, (match) =>
-    match[1]!.toUpperCase(),
-  );
+  const camelCaseString = snakeCaseString.replace(/(\_\w)/g, (match) => match[1]!.toUpperCase());
   return camelCaseString.charAt(0).toUpperCase() + camelCaseString.slice(1);
 }
 
