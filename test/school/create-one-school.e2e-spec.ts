@@ -13,7 +13,7 @@ describe('create-one-school', () => {
   });
 
   it('success to create school.', async () => {
-    connection.headers.authorization = `Bearer ${accessTokenMap.admin}`;
+    connection.headers.authorization = `Bearer ${accessTokenMap.admin[0]}`;
 
     const res = await api.schools.createOneSchool(connection, {
       name: 'test school',
@@ -28,7 +28,7 @@ describe('create-one-school', () => {
   });
 
   it('fail to create school as student user.', async () => {
-    connection.headers.authorization = `Bearer ${accessTokenMap.student}`;
+    connection.headers.authorization = `Bearer ${accessTokenMap.student[0]}`;
 
     const res = await api.schools.createOneSchool(connection, {
       name: 'test school',

@@ -16,46 +16,54 @@ export const connection = {
 } satisfies IConnection;
 
 export const accessTokenMap = {
-  admin: ``,
-  student: ``,
+  admin: [] as string[],
+  student: [] as string[],
 };
 
-export const setupUser = async () => {
-  await api.users.sign_up.signUpUser(connection, {
-    email: 'admin1@test.com',
-    name: 'admin1',
-    password: '12341234',
-    userRole: 'admin',
-  });
+export const setupUser = async (count = 3) => {
+  const promise = Array(count)
+    .fill(0)
+    .map(async (_, i) => {
+      const seq = i + 1;
 
-  await api.users.sign_up.signUpUser(connection, {
-    email: 'student1@test.com',
-    name: 'student1',
-    password: '12341234',
-    userRole: 'student',
-  });
+      await api.users.sign_up.signUpUser(connection, {
+        email: `admin${seq}@test.com`,
+        name: `admin${seq}`,
+        password: `12341234`,
+        userRole: `admin`,
+      });
 
-  const adminSignIn = await api.users.sign_in.signInUser(connection, {
-    email: 'admin1@test.com',
-    password: '12341234',
-  });
+      await api.users.sign_up.signUpUser(connection, {
+        email: `student${seq}@test.com`,
+        name: `student${seq}`,
+        password: `12341234`,
+        userRole: `student`,
+      });
 
-  if (adminSignIn.status === 201) {
-    accessTokenMap.admin = adminSignIn.data.accessToken;
-  } else {
-    fail('fail to sign in to admin');
-  }
+      const adminSignIn = await api.users.sign_in.signInUser(connection, {
+        email: `admin${seq}@test.com`,
+        password: `12341234`,
+      });
 
-  const studuentSignIn = await api.users.sign_in.signInUser(connection, {
-    email: 'student1@test.com',
-    password: '12341234',
-  });
+      if (adminSignIn.status === 201) {
+        accessTokenMap.admin.push(adminSignIn.data.accessToken);
+      } else {
+        fail(`fail to sign in to admin`);
+      }
 
-  if (studuentSignIn.status === 201) {
-    accessTokenMap.student = studuentSignIn.data.accessToken;
-  } else {
-    fail('fail to sign in to student');
-  }
+      const studuentSignIn = await api.users.sign_in.signInUser(connection, {
+        email: `student${seq}@test.com`,
+        password: `12341234`,
+      });
+
+      if (studuentSignIn.status === 201) {
+        accessTokenMap.student.push(studuentSignIn.data.accessToken);
+      } else {
+        fail(`fail to sign in to student`);
+      }
+    });
+
+  await Promise.all(promise);
 };
 
 export const setupSchool = async (count: number) => {

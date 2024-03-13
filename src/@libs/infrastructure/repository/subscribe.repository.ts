@@ -69,7 +69,9 @@ export class SubscribeRepository extends BaseRepository<SubscribeAggregate> {
         take: params.pageSize,
         include: this.includeAll,
       })
-      .then((subscribes) => subscribes.map(this.convertToAgg) as SubscribeAggregate[]);
+      .then(
+        (subscribes) => subscribes.map((each) => this.convertToAgg(each)) as SubscribeAggregate[],
+      );
   }
 
   async saveOne(agg: SubscribeAggregate): Promise<number> {
