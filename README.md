@@ -11,8 +11,8 @@
 - `config/dotenv/.env.local`의 mysql 연결 정보를 수정해주세요.
 - `config/sql-history/init` 하위의 sql을 차례대로 실행해주세요.
 - `npm i --force`, `npm run prepare`, `npm run gen:prisma`을 실행해주세요.
-- `npm run dev`로 서버를 실행해주세요. ("Server is running on 3000"가 출력되면 정상입니다.)
-- `http://localhost:3000/docs`로 swagger document 확인 가능합니다.
+- `npm run dev`로 서버를 실행해주세요. ("Server is running on 4000"가 출력되면 정상입니다.)
+- `http://localhost:4000/docs`로 swagger document 확인 가능합니다.
 
 #
 
