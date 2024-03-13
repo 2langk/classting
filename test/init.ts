@@ -42,7 +42,6 @@ export const setupUser = async () => {
 
   if (adminSignIn.status === 201) {
     accessTokenMap.admin = adminSignIn.data.accessToken;
-    console.log(accessTokenMap.admin);
   } else {
     fail('fail to sign in to admin');
   }
@@ -57,4 +56,35 @@ export const setupUser = async () => {
   } else {
     fail('fail to sign in to student');
   }
+};
+
+export const setupSchool = async (count: number) => {
+  await api.users.sign_up.signUpUser(connection, {
+    email: 'setupSchoolAdmin@test.com',
+    name: 'setupSchoolAdmin',
+    password: '12341234',
+    userRole: 'admin',
+  });
+
+  const adminSignIn = await api.users.sign_in.signInUser(connection, {
+    email: 'setupSchoolAdmin@test.com',
+    password: '12341234',
+  });
+
+  if (adminSignIn.status === 201) {
+    connection.headers.authorization = `Bearer ${adminSignIn.data.accessToken}`;
+  } else {
+    fail('fail to sign in to admin');
+  }
+
+  const promises = Array(count)
+    .fill(0)
+    .map(() =>
+      api.schools.createOneSchool(connection, {
+        name: 'asd',
+        region: 'asd',
+      }),
+    );
+
+  await Promise.all(promises);
 };

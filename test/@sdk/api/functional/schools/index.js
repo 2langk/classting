@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.createOneSchool = void 0;
+exports.findManySchool = exports.createOneSchool = void 0;
 const PlainFetcher_1 = require('@nestia/fetcher/lib/PlainFetcher');
 async function createOneSchool(connection, data) {
   return PlainFetcher_1.PlainFetcher.propagate(
@@ -30,4 +30,32 @@ exports.createOneSchool = createOneSchool;
   };
   createOneSchool.path = () => '/schools';
 })(createOneSchool || (exports.createOneSchool = createOneSchool = {}));
+async function findManySchool(connection, data) {
+  return PlainFetcher_1.PlainFetcher.propagate(
+    connection,
+    Object.assign(Object.assign({}, findManySchool.METADATA), { path: findManySchool.path(data) }),
+  );
+}
+exports.findManySchool = findManySchool;
+(function (findManySchool) {
+  findManySchool.METADATA = {
+    method: 'GET',
+    path: '/schools',
+    request: null,
+    response: {
+      type: 'application/json',
+      encrypted: false,
+    },
+    status: null,
+  };
+  findManySchool.path = (data) => {
+    const variables = new URLSearchParams();
+    for (const [key, value] of Object.entries(data))
+      if (undefined === value) continue;
+      else if (Array.isArray(value)) value.forEach((elem) => variables.append(key, String(elem)));
+      else variables.set(key, String(value));
+    const location = '/schools';
+    return 0 === variables.size ? location : `${location}?${variables.toString()}`;
+  };
+})(findManySchool || (exports.findManySchool = findManySchool = {}));
 //# sourceMappingURL=index.js.map

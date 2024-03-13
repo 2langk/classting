@@ -109,6 +109,12 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
     op: 'in' | 'notIn' | 'gt' | 'lt' = 'in',
   ) {
     if (!Array.isArray(condition)) {
+      if (op === 'gt' || op === 'lt') {
+        return {
+          [op]: condition,
+        };
+      }
+
       return condition as T;
     }
 

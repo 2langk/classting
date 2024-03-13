@@ -2,7 +2,7 @@ import { fail } from 'assert';
 import { api } from 'test/@sdk/api';
 import { accessTokenMap, cleanUpDatabase, connection, setupUser } from 'test/init';
 
-describe('sign-in-user', () => {
+describe('create-one-school', () => {
   beforeAll(async () => {
     await cleanUpDatabase();
     await setupUser();
