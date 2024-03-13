@@ -16,7 +16,8 @@
     "gen:env": "dotenv-const -f ./config/dotenv/.env.local -o ./src/@libs/common/environment.ts",
     "gen:enum": "tsnd --env-file=config/dotenv/.env.local config/script/generate-config-enum.ts",
     "gen:prisma": "tsnd --env-file=config/dotenv/.env.local config/script/generate-prisma-client.ts",
-    "gen:sdk": "tsnd config/script/generate-sdk.ts"
+    "gen:sdk": "tsnd config/script/generate-sdk.ts",
+    "test:e2e": "jest --testPathPattern=test --runInBand"
   },
   "dependencies": {
     "@fxts/core": "^0.24.0",

@@ -6,9 +6,9 @@ export const init = () => {
   execSync('npx tsnd --env-file=config/dotenv/.env.test config/script/init-database.ts');
 };
 
-export const connection: IConnection = {
+export const connection = {
   host: 'http://localhost:4000',
   headers: {
     authorization: ``,
   },
-};
+} satisfies IConnection;
