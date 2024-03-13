@@ -9,6 +9,7 @@ import {
   CreateOneNewsPort,
   CreateOneNewsView,
 } from './create-one-news';
+import { DeleteOneNewsException, DeleteOneNewsPort, DeleteOneNewsView } from './delete-one-news';
 import {
   UpdateOneNewsData,
   UpdateOneNewsException,
@@ -21,6 +22,7 @@ export class NewsController {
   constructor(
     private readonly createOneNewsPort: CreateOneNewsPort,
     private readonly updateOneNewsPort: UpdateOneNewsPort,
+    private readonly deleteOneNewsPort: DeleteOneNewsPort,
   ) {}
 
   /**
@@ -58,5 +60,20 @@ export class NewsController {
     @TypedBody() data: OmitProperties<UpdateOneNewsData, 'id'>,
   ): Promise<UpdateOneNewsView> {
     return this.updateOneNewsPort.execute({ id, ...data });
+  }
+
+  /**
+   * 소식 삭제하기.
+   * - 해당 소식의 작성자만 가능합니다.
+   *
+   * @tag News
+   *
+   * @return 소식 id
+   */
+  @Auth('admin')
+  @TypedException<DeleteOneNewsException>(400)
+  @TypedRoute.Delete('/:id')
+  async deleteOneNews(@TypedParam('id') id: number): Promise<DeleteOneNewsView> {
+    return this.deleteOneNewsPort.execute({ id });
   }
 }

@@ -48,9 +48,7 @@ export class NewsRepository extends BaseRepository<NewsAggregate> {
 
   async saveOne(agg: NewsAggregate): Promise<number> {
     if (agg.id !== 0) {
-      await this.queryRunner('news').deleteMany({
-        where: { id: agg.id },
-      });
+      await this.deleteByIds(agg.id);
     }
 
     const entity = await this.queryRunner('news').create({
@@ -68,5 +66,11 @@ export class NewsRepository extends BaseRepository<NewsAggregate> {
     await this.publishDomainEvent(agg, entity.id);
 
     return entity.id;
+  }
+
+  async deleteByIds(id: number | number[]) {
+    await this.queryRunner('news').deleteMany({
+      where: { id: this.wrapCondition(id, 'in') },
+    });
   }
 }
