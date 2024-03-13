@@ -4,6 +4,7 @@ import type {
   UpsertOneSubsriptionView,
   UpsertOneSubsriptionException,
 } from '../../../subscription/upsert-one-subscription/upsert-one-subscription.type';
+export * as me from './me';
 export declare function upsertOneSubscription(
   connection: IConnection,
   data: upsertOneSubscription.Input,
