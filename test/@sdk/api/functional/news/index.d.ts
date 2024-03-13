@@ -5,6 +5,10 @@ import type {
   CreateOneNewsException,
 } from '../../../news/create-one-news/create-one-news.type';
 import type {
+  DeleteOneNewsView,
+  DeleteOneNewsException,
+} from '../../../news/delete-one-news/delete-one-news.type';
+import type {
   UpdateOneNewsData,
   UpdateOneNewsView,
   UpdateOneNewsException,
@@ -52,6 +56,27 @@ export declare namespace updateOneNews {
       readonly type: 'application/json';
       readonly encrypted: false;
     };
+    readonly response: {
+      readonly type: 'application/json';
+      readonly encrypted: false;
+    };
+    readonly status: null;
+  };
+  const path: (id: number) => string;
+}
+export declare function deleteOneNews(
+  connection: IConnection,
+  id: number,
+): Promise<deleteOneNews.Output>;
+export declare namespace deleteOneNews {
+  type Output = IPropagation<{
+    200: DeleteOneNewsView;
+    400: DeleteOneNewsException;
+  }>;
+  const METADATA: {
+    readonly method: 'DELETE';
+    readonly path: '/news/:id';
+    readonly request: null;
     readonly response: {
       readonly type: 'application/json';
       readonly encrypted: false;

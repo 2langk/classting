@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.updateOneNews = exports.createOneNews = void 0;
+exports.deleteOneNews = exports.updateOneNews = exports.createOneNews = void 0;
 const PlainFetcher_1 = require('@nestia/fetcher/lib/PlainFetcher');
 async function createOneNews(connection, data) {
   return PlainFetcher_1.PlainFetcher.propagate(
@@ -59,4 +59,25 @@ exports.updateOneNews = updateOneNews;
   updateOneNews.path = (id) =>
     `/news/${encodeURIComponent(id !== null && id !== void 0 ? id : 'null')}`;
 })(updateOneNews || (exports.updateOneNews = updateOneNews = {}));
+async function deleteOneNews(connection, id) {
+  return PlainFetcher_1.PlainFetcher.propagate(
+    connection,
+    Object.assign(Object.assign({}, deleteOneNews.METADATA), { path: deleteOneNews.path(id) }),
+  );
+}
+exports.deleteOneNews = deleteOneNews;
+(function (deleteOneNews) {
+  deleteOneNews.METADATA = {
+    method: 'DELETE',
+    path: '/news/:id',
+    request: null,
+    response: {
+      type: 'application/json',
+      encrypted: false,
+    },
+    status: null,
+  };
+  deleteOneNews.path = (id) =>
+    `/news/${encodeURIComponent(id !== null && id !== void 0 ? id : 'null')}`;
+})(deleteOneNews || (exports.deleteOneNews = deleteOneNews = {}));
 //# sourceMappingURL=index.js.map
