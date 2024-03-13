@@ -55,6 +55,23 @@ export class SubscribeRepository extends BaseRepository<SubscribeAggregate> {
       .then(this.convertToAgg);
   }
 
+  async findMany(params: {
+    userId?: number | number[];
+    schoolId?: number | number[];
+    pageSize: number;
+  }): Promise<SubscribeAggregate[]> {
+    return this.queryRunner('subscribe')
+      .findMany({
+        where: {
+          user_id: this.wrapCondition(params.userId, 'in'),
+          school_id: this.wrapCondition(params.schoolId, 'in'),
+        },
+        take: params.pageSize,
+        include: this.includeAll,
+      })
+      .then((subscribes) => subscribes.map(this.convertToAgg) as SubscribeAggregate[]);
+  }
+
   async saveOne(agg: SubscribeAggregate): Promise<number> {
     if (agg.id !== 0) {
       await this.queryRunner('subscribe_status').deleteMany({
