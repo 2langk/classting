@@ -22,7 +22,7 @@ export class SubscriptionController {
   ) {}
 
   /**
-   * 학교 구독(or 취소) 하기.
+   * 학교 구독 혹은 취소 하기.
    * - 학생(student) 유저만 가능합니다.
    * - 기존값과 반대로 upsert 합니다.
    *
@@ -45,6 +45,7 @@ export class SubscriptionController {
 
   /**
    * 자기 구독 정보 가져오기.
+   * - 학생(student) 유저만 가능합니다.
    *
    * @tag Subscription
    *
