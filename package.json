@@ -13,7 +13,8 @@
     "dev": "tsnd --env-file=config/dotenv/.env.local --respawn --rs src/main.ts",
     "gen:env": "dotenv-const -f ./config/dotenv/.env.local -o ./src/@libs/common/environment.ts",
     "gen:enum": "tsnd --env-file=config/dotenv/.env.local config/script/generate-config-enum.ts",
-    "gen:prisma": "tsnd --env-file=config/dotenv/.env.local config/script/generate-prisma-client.ts"
+    "gen:prisma": "tsnd --env-file=config/dotenv/.env.local config/script/generate-prisma-client.ts",
+    "gen:swagger": "npx nestia swagger"
   },
   "dependencies": {
     "@fxts/core": "^0.24.0",
@@ -23,6 +24,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.3.0",
     "@toss/nestjs-aop": "^2.1.4",
     "jsonwebtoken": "^9.0.2",
     "nestjs-cls": "^4.2.0",
