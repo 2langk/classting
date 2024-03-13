@@ -9,7 +9,8 @@ export class SubscribeAggregate extends BaseAggregate<'subscribe'> {
   subscribeStatus!: {
     id: number;
     type: SubscribeStatusEnum;
-  };
+    processedAt: Date;
+  }[];
   schoolId!: number;
   userId!: number;
 

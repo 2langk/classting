@@ -27,7 +27,13 @@ export class CreateOneSchoolPort {
     await this.subscribeRepository.saveOne(
       SubscribeAggregate.create({
         id: 0,
-        subscribeStatus: { id: 0, type: { admin: 'manage' } },
+        subscribeStatus: [
+          {
+            id: 0,
+            type: { admin: 'manage' },
+            processedAt: new Date(),
+          },
+        ],
         schoolId: newSchoolId,
         userId: this.clsManager.getItem('currUser').userId,
       }),

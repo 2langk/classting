@@ -30,12 +30,14 @@ export class CreateOneNewsPort {
       throw new CreateOneNewsException('permission denied.');
     }
 
-    const subscribe = await this.subscribeRepository.findMany({
-      userId: user.id,
-      schoolId: data.schoolId,
-      pageSize: 1,
-    });
-    if (subscribe.length !== 1 || subscribe[0]?.subscribeStatus.type.admin !== 'manage') {
+    const subscribe = (
+      await this.subscribeRepository.findMany({
+        userId: user.id,
+        schoolId: data.schoolId,
+        pageSize: 1,
+      })
+    )[0];
+    if (!subscribe?.subscribeStatus.map((each) => each.type.admin).includes('manage')) {
       throw new CreateOneNewsException('permission denied.');
     }
 

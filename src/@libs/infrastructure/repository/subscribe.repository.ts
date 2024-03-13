@@ -25,17 +25,20 @@ export class SubscribeRepository extends BaseRepository<SubscribeAggregate> {
   protected override convertToAgg(entity: UnwrapPromise<ReturnType<typeof this.entity>>) {
     if (!entity || !entity.subscribe_status) return null;
 
-    const parent = this.configMap.getById(entity.subscribe_status.config.parent_id || 0).name;
-
     return SubscribeAggregate.create(
       {
         id: entity.id,
-        subscribeStatus: {
-          id: entity.subscribe_status?.id,
-          type: {
-            [parent]: entity.subscribe_status.config.name,
-          },
-        },
+        subscribeStatus: entity.subscribe_status.map((each) => {
+          const parentName = this.configMap.getById(each.config.parent_id || 0).name;
+
+          return {
+            id: each.id,
+            type: {
+              [parentName]: each.config.name,
+            },
+            processedAt: each.processedAt,
+          };
+        }),
         schoolId: entity.school_id,
         userId: entity.user_id,
       },
@@ -91,12 +94,15 @@ export class SubscribeRepository extends BaseRepository<SubscribeAggregate> {
         school_id: agg.schoolId,
         user_id: agg.userId,
         subscribe_status: {
-          create: {
-            id: agg.subscribeStatus.id,
-            config_id: this.configMap.getId(
-              'subscribe_status',
-              agg.subscribeStatus.type.admin || agg.subscribeStatus.type.student || '',
-            ),
+          createMany: {
+            data: agg.subscribeStatus.map((each) => ({
+              id: each.id,
+              config_id: this.configMap.getId(
+                'subscribe_status',
+                each.type.admin || each.type.student || '',
+              ),
+              processedAt: each.processedAt,
+            })),
           },
         },
         createdAt: agg.createdAt,

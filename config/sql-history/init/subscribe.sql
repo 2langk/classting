@@ -22,8 +22,8 @@ CREATE TABLE `subscribe_status`(
 	`id` Int( 0 ) AUTO_INCREMENT NOT NULL,
 	`subscribe_id` Int( 0 ) NOT NULL,
 	`config_id` Int( 0 ) NOT NULL,
-	PRIMARY KEY ( `id` ),
-	CONSTRAINT `ux_subscribe_status_subscribe_id` UNIQUE( `subscribe_id` ) )
+	`processedAt` DateTime NOT NULL,
+	PRIMARY KEY ( `id` ) )
 CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
 ENGINE = InnoDB;-- -------------------------------------------------------------

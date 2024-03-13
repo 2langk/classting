@@ -63,6 +63,7 @@ erDiagram
   Int id PK
   Int subscribe_id FK
   Int config_id FK
+  DateTime processedAt
 }
 "user" {
   Int id PK

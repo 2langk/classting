@@ -52,6 +52,7 @@ erDiagram
   Int id PK
   Int subscribe_id FK
   Int config_id FK
+  DateTime processedAt
 }
 "user" {
   Int id PK
@@ -68,7 +69,7 @@ erDiagram
 }
 "domainEvent" }o--|| "config" : config
 "subscribe_status" }o--|| "config" : config
-"subscribe_status" |o--|| "subscribe" : subscribe
+"subscribe_status" }o--|| "subscribe" : subscribe
 "user_role" }o--|| "config" : config
 "user_role" }o--|| "user" : user
 ```
@@ -131,6 +132,7 @@ erDiagram
   - `id`: 
   - `subscribe_id`: 
   - `config_id`: 
+  - `processedAt`: 
 
 ### `user`
 
