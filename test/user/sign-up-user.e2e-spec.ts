@@ -1,10 +1,6 @@
 import { fail } from 'assert';
-import { api, IConnection } from 'test/@sdk/api';
-import { init } from 'test/init';
-
-const connection: IConnection = {
-  host: 'http://localhost:4000',
-};
+import { api } from 'test/@sdk/api';
+import { connection, init } from 'test/init';
 
 describe('sign-up-user', () => {
   beforeAll(() => {
