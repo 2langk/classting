@@ -5,7 +5,19 @@ import { config_type, Prisma, PrismaClient } from '@prisma/client';
 import { ClsManager } from '../manager';
 
 export abstract class BaseRepository<T extends BaseAggregate<any>> {
-  static _configMap: { getId(type: config_type, name: string): number };
+  static _configMap: {
+    getById(id: number): {
+      id: number;
+      type: config_type;
+      name: string;
+      description: string;
+      parent_id: number | null;
+      createdAt: Date;
+      updatedAt: Date;
+    };
+
+    getId(type: config_type, name: string): number;
+  };
   static _prismaClient: PrismaClient;
 
   async onModuleInit() {
@@ -46,6 +58,7 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
     await BaseRepository._prismaClient.$connect();
 
     const configs = await BaseRepository._prismaClient.config.findMany({});
+    const configIdMap = F.assoicateBy((it) => it.id, configs);
 
     BaseRepository._configMap = F.pipe(
       configs,
@@ -60,6 +73,15 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
             }
 
             return configId;
+          },
+
+          getById(id: number) {
+            const config = configIdMap[id];
+            if (!config) {
+              throw new Error(`invalid configId. id=${id}`);
+            }
+
+            return config;
           },
         };
       },
