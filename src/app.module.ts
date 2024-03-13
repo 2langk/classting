@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 
 import { NewsModule } from './news/news.module';
 import { SchoolModule } from './school/school.module';
+import { SubscriptionModule } from './subscribe/subscription.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -12,6 +13,7 @@ import { UserModule } from './user/user.module';
     MiddlewareModule.forRoot(),
     NewsModule,
     SchoolModule,
+    SubscriptionModule,
     UserModule,
   ],
 })
