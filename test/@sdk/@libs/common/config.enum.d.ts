@@ -1,4 +1,4 @@
-export type AggreagteEnum = 'user' | 'product';
+export type AggreagteEnum = 'news' | 'school' | 'subscribe' | 'user';
 export type DomainEventEnum =
   | 'news_created'
   | 'news_updated'
@@ -8,7 +8,7 @@ export type DomainEventEnum =
   | 'subscribe_canceled'
   | 'user_created';
 export type SubscribeStatusEnum = {
-  admin?: 'manage'[];
-  student?: ('subscribe' | 'cancel')[];
+  admin?: 'manage';
+  student?: 'subscribe' | 'cancel';
 };
 export type UserRoleEnum = 'operator' | 'admin' | 'student';

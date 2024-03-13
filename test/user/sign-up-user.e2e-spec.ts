@@ -1,10 +1,10 @@
 import { fail } from 'assert';
 import { api } from 'test/@sdk/api';
-import { connection, init } from 'test/init';
+import { cleanUpDatabase, connection } from 'test/init';
 
 describe('sign-up-user', () => {
-  beforeAll(() => {
-    init();
+  beforeAll(async () => {
+    await cleanUpDatabase();
   });
 
   it('success to sign-up. (admin)', async () => {

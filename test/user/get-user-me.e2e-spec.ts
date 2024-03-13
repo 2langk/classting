@@ -1,10 +1,10 @@
 import { fail } from 'assert';
 import { api } from 'test/@sdk/api';
-import { connection, init } from 'test/init';
+import { cleanUpDatabase, connection } from 'test/init';
 
 describe('get-user-me', () => {
   beforeAll(async () => {
-    init();
+    await cleanUpDatabase();
 
     await api.users.sign_up.signUpUser(connection, {
       email: 'admin1@test.com',

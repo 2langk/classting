@@ -13,6 +13,16 @@ import {
 export class SchoolController {
   constructor(private readonly createOneSchoolPort: CreateOneSchoolPort) {}
 
+  /**
+   * 학교 생성하기.
+   * - 관리자(admin) 유저만 가능합니다.
+   *
+   * @tag School
+   *
+   * @param data 학교 생성에 필요한 정보
+   *
+   * @return 학교 id
+   */
   @Auth('admin')
   @TypedException<CreateOneSchoolException>(400)
   @TypedRoute.Post('/')
