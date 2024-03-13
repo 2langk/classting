@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 
 import { NewsModule } from './news/news.module';
 import { SchoolModule } from './school/school.module';
-import { SubscriptionModule } from './subscribe/subscription.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 import { UserModule } from './user/user.module';
 
 @Module({

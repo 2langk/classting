@@ -41,16 +41,16 @@ erDiagram
   DateTime createdAt
   DateTime updatedAt
 }
-"subscribe" {
+"subscription" {
   Int id PK
   Int school_id
   Int user_id
   DateTime createdAt
   DateTime updatedAt
 }
-"subscribe_status" {
+"subscription_status" {
   Int id PK
-  Int subscribe_id FK
+  Int subscription_id FK
   Int config_id FK
   DateTime processedAt
 }
@@ -68,8 +68,8 @@ erDiagram
   Int config_id FK
 }
 "domainEvent" }o--|| "config" : config
-"subscribe_status" }o--|| "config" : config
-"subscribe_status" }o--|| "subscribe" : subscribe
+"subscription_status" }o--|| "config" : config
+"subscription_status" }o--|| "subscription" : subscription
 "user_role" }o--|| "config" : config
 "user_role" }o--|| "user" : user
 ```
@@ -117,7 +117,7 @@ erDiagram
   - `createdAt`: 
   - `updatedAt`: 
 
-### `subscribe`
+### `subscription`
 
 **Properties**
   - `id`: 
@@ -126,11 +126,11 @@ erDiagram
   - `createdAt`: 
   - `updatedAt`: 
 
-### `subscribe_status`
+### `subscription_status`
 
 **Properties**
   - `id`: 
-  - `subscribe_id`: 
+  - `subscription_id`: 
   - `config_id`: 
   - `processedAt`: 
 

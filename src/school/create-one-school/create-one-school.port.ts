@@ -1,6 +1,6 @@
-import { SchoolAggregate, SubscribeAggregate } from '@libs/domain';
+import { SchoolAggregate, SubscriptionAggregate } from '@libs/domain';
 import { ClsManager } from '@libs/infrastructure/manager';
-import { SchoolRepository, SubscribeRepository } from '@libs/infrastructure/repository';
+import { SchoolRepository, SubscriptionRepository } from '@libs/infrastructure/repository';
 import { Transaction } from '@libs/middleware/transaction.aspect';
 import { Injectable } from '@nestjs/common';
 
@@ -11,7 +11,7 @@ export class CreateOneSchoolPort {
   constructor(
     private readonly clsManager: ClsManager,
     private readonly schoolRepository: SchoolRepository,
-    private readonly subscribeRepository: SubscribeRepository,
+    private readonly subscriptionRepository: SubscriptionRepository,
   ) {}
 
   @Transaction()
@@ -24,10 +24,10 @@ export class CreateOneSchoolPort {
       }),
     );
 
-    await this.subscribeRepository.saveOne(
-      SubscribeAggregate.create({
+    await this.subscriptionRepository.saveOne(
+      SubscriptionAggregate.create({
         id: 0,
-        subscribeStatus: [
+        subscriptionStatus: [
           {
             id: 0,
             type: { admin: 'manage' },

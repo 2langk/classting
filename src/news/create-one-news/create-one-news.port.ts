@@ -2,7 +2,7 @@ import { NewsAggregate } from '@libs/domain';
 import { ClsManager } from '@libs/infrastructure/manager';
 import {
   NewsRepository,
-  SubscribeRepository,
+  SubscriptionRepository,
   UserRepository,
 } from '@libs/infrastructure/repository';
 import { Transaction } from '@libs/middleware/transaction.aspect';
@@ -19,7 +19,7 @@ export class CreateOneNewsPort {
   constructor(
     private readonly clsManager: ClsManager,
     private readonly userRepository: UserRepository,
-    private readonly subscribeRepository: SubscribeRepository,
+    private readonly subscriptionRepository: SubscriptionRepository,
     private readonly newsRepository: NewsRepository,
   ) {}
 
@@ -30,14 +30,14 @@ export class CreateOneNewsPort {
       throw new CreateOneNewsException('permission denied.');
     }
 
-    const subscribe = (
-      await this.subscribeRepository.findMany({
+    const subscription = (
+      await this.subscriptionRepository.findMany({
         userId: user.id,
         schoolId: data.schoolId,
         pageSize: 1,
       })
     )[0];
-    if (!subscribe?.subscribeStatus.map((each) => each.type.admin).includes('manage')) {
+    if (!subscription?.subscriptionStatus.map((each) => each.type.admin).includes('manage')) {
       throw new CreateOneNewsException('permission denied.');
     }
 

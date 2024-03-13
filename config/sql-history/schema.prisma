@@ -14,16 +14,16 @@ datasource db {
 }
 
 model config {
-  id               Int                @id
-  type             config_type
-  name             String             @db.VarChar(64)
-  description      String             @db.VarChar(255)
-  parent_id        Int?
-  createdAt        DateTime           @db.DateTime(0)
-  updatedAt        DateTime           @db.DateTime(0)
-  domainEvent      domainEvent[]
-  subscribe_status subscribe_status[]
-  user_role        user_role[]
+  id                  Int                   @id
+  type                config_type
+  name                String                @db.VarChar(64)
+  description         String                @db.VarChar(255)
+  parent_id           Int?
+  createdAt           DateTime              @db.DateTime(0)
+  updatedAt           DateTime              @db.DateTime(0)
+  domainEvent         domainEvent[]
+  subscription_status subscription_status[]
+  user_role           user_role[]
 
   @@index([parent_id], map: "idx_config_parent_id")
   @@index([type], map: "idx_config_type")
@@ -65,29 +65,29 @@ model school {
   updatedAt DateTime @db.DateTime(0)
 }
 
-model subscribe {
-  id               Int                @id @default(autoincrement())
-  school_id        Int
-  user_id          Int
-  createdAt        DateTime           @db.DateTime(0)
-  updatedAt        DateTime           @db.DateTime(0)
-  subscribe_status subscribe_status[]
+model subscription {
+  id                  Int                   @id @default(autoincrement())
+  school_id           Int
+  user_id             Int
+  createdAt           DateTime              @db.DateTime(0)
+  updatedAt           DateTime              @db.DateTime(0)
+  subscription_status subscription_status[]
 
-  @@unique([school_id, user_id], map: "ux_subscribe_school_id_user_id")
-  @@index([school_id], map: "idx_subscribe_school_id")
-  @@index([user_id], map: "idx_subscribe_user_id")
+  @@unique([school_id, user_id], map: "ux_subscription_school_id_user_id")
+  @@index([school_id], map: "idx_subscription_school_id")
+  @@index([user_id], map: "idx_subscription_user_id")
 }
 
-model subscribe_status {
-  id           Int       @id @default(autoincrement())
-  subscribe_id Int
-  config_id    Int
-  processedAt  DateTime  @db.DateTime(0)
-  config       config    @relation(fields: [config_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_subscribe_status_config_id")
-  subscribe    subscribe @relation(fields: [subscribe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_subscribe_status_subscribe_id")
+model subscription_status {
+  id              Int          @id @default(autoincrement())
+  subscription_id Int
+  config_id       Int
+  processedAt     DateTime     @db.DateTime(0)
+  config          config       @relation(fields: [config_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_subscription_status_config_id")
+  subscription    subscription @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_subscription_status_subscription_id")
 
-  @@index([config_id], map: "fk_subscribe_status_config_id")
-  @@index([subscribe_id], map: "fk_subscribe_status_subscribe_id")
+  @@index([config_id], map: "fk_subscription_status_config_id")
+  @@index([subscription_id], map: "fk_subscription_status_subscription_id")
 }
 
 model user {
@@ -111,17 +111,17 @@ model user_role {
   @@index([config_id], map: "fk_user_role_config_id")
 }
 
+enum config_type {
+  domainEvent
+  subscription_status
+  user_role
+}
+
 enum domainEvent_aggregate {
   news
   school
-  subscribe
+  subscription
   user
-}
-
-enum config_type {
-  domainEvent
-  subscribe_status
-  user_role
 }
 
 enum domainEvent_status {

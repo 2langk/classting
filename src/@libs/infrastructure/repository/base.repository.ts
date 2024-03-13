@@ -33,9 +33,8 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
     BaseRepository._prismaClient = new PrismaClient({
       datasourceUrl: `mysql://${username}:${password}@${host}:${port}/${name}?connection_limit=100`,
       log:
-        env === 'production'
-          ? []
-          : [
+        env === 'dev'
+          ? [
               {
                 emit: 'stdout',
                 level: 'query',
@@ -52,7 +51,8 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
                 emit: 'stdout',
                 level: 'warn',
               },
-            ],
+            ]
+          : [],
     });
 
     await BaseRepository._prismaClient.$connect();

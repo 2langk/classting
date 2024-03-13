@@ -1,4 +1,4 @@
 export * from './news.repository';
 export * from './school.repository';
-export * from './subscribe.repository';
+export * from './subscription.repository';
 export * from './user.repository';
