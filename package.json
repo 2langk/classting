@@ -12,9 +12,11 @@
     "start": "node --env-file=config/dotenv/.env.production dist/main.js",
     "dev": "tsnd --env-file=config/dotenv/.env.local --respawn --rs src/main.ts",
     "gen:env": "dotenv-const -f ./config/dotenv/.env.local -o ./src/@libs/common/environment.ts",
+    "gen:enum": "tsnd --env-file=config/dotenv/.env.local config/script/generate-config-enum.ts",
     "gen:prisma": "tsnd --env-file=config/dotenv/.env.local config/script/generate-prisma-client.ts"
   },
   "dependencies": {
+    "@fxts/core": "^0.24.0",
     "@nestia/core": "^2.5.15",
     "@nestia/e2e": "^0.4.1",
     "@nestia/fetcher": "^2.5.15",
