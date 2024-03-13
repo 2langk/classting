@@ -104,7 +104,10 @@ export abstract class BaseRepository<T extends BaseAggregate<any>> {
     return (id || undefined) as number;
   }
 
-  protected wrapCondition<T>(condition: T | T[] | undefined, op: 'in' | 'notIn' = 'in') {
+  protected wrapCondition<T>(
+    condition: T | T[] | undefined,
+    op: 'in' | 'notIn' | 'gt' | 'lt' = 'in',
+  ) {
     if (!Array.isArray(condition)) {
       return condition as T;
     }

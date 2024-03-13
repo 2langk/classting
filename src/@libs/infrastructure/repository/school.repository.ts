@@ -1,6 +1,7 @@
 import { UnwrapPromise } from '@libs/common';
 import { SchoolAggregate } from '@libs/domain';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import { ClsManager } from '../manager';
 import { BaseRepository } from './base.repository';
@@ -42,6 +43,24 @@ export class SchoolRepository extends BaseRepository<SchoolAggregate> {
         // include: this.includeAll
       })
       .then(this.convertToAgg);
+  }
+
+  async findMany(params: {
+    cursorId: number;
+    cursorOp: 'gt' | 'lt';
+    pageSize: number;
+    orderBy: Prisma.schoolOrderByWithRelationInput;
+  }): Promise<SchoolAggregate[]> {
+    return this.queryRunner('school')
+      .findMany({
+        where: {
+          id: this.wrapCondition(params.cursorId, params.cursorOp),
+        },
+        take: params.pageSize,
+        orderBy: params.orderBy,
+        // include: this.includeAll,
+      })
+      .then((schools) => schools.map(this.convertToAgg) as SchoolAggregate[]);
   }
 
   async saveOne(agg: SchoolAggregate): Promise<number> {
