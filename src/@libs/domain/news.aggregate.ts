@@ -1,4 +1,4 @@
-import { OmitProperties } from '@libs/common';
+import { F, OmitProperties, Undefinable } from '@libs/common';
 
 import { BaseAggregate, DateProperties } from './base.aggregate';
 
@@ -16,5 +16,13 @@ export class NewsAggregate extends BaseAggregate<'news'> {
     if (agg.id === 0) agg.pushDomainEvent('news_created');
 
     return agg;
+  }
+
+  update(params: Undefinable<NewsProperties>) {
+    Object.assign(this, F.removeUndefined(params));
+    this.updatedAt = new Date();
+    this.pushDomainEvent('news_updated');
+
+    return this;
   }
 }
