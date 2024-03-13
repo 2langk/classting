@@ -41,8 +41,9 @@ var __importStar =
     return result;
   };
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.users = exports.schools = exports.news = void 0;
+exports.users = exports.subscriptions = exports.schools = exports.news = void 0;
 exports.news = __importStar(require('./news'));
 exports.schools = __importStar(require('./schools'));
+exports.subscriptions = __importStar(require('./subscriptions'));
 exports.users = __importStar(require('./users'));
 //# sourceMappingURL=index.js.map

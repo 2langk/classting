@@ -1,13 +1,13 @@
-export type AggreagteEnum = 'news' | 'school' | 'subscribe' | 'user';
+export type AggreagteEnum = 'news' | 'school' | 'subscription' | 'user';
 export type DomainEventEnum =
   | 'news_created'
   | 'news_updated'
   | 'news_deleted'
   | 'school_created'
-  | 'subscribe_created'
-  | 'subscribe_canceled'
+  | 'subscription_created'
+  | 'subscription_canceled'
   | 'user_created';
-export type SubscribeStatusEnum = {
+export type SubscriptionStatusEnum = {
   admin?: 'manage';
   student?: 'subscribe' | 'cancel';
 };

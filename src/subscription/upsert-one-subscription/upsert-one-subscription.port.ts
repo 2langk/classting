@@ -1,11 +1,12 @@
 import { SubscriptionAggregate } from '@libs/domain';
 import { ClsManager } from '@libs/infrastructure/manager';
-import { SubscriptionRepository } from '@libs/infrastructure/repository';
+import { SchoolRepository, SubscriptionRepository } from '@libs/infrastructure/repository';
 import { Transaction } from '@libs/middleware/transaction.aspect';
 import { Injectable } from '@nestjs/common';
 
 import {
   UpsertOneSubscriptionData,
+  UpsertOneSubsriptionException,
   UpsertOneSubsriptionView,
 } from './upsert-one-subscription.type';
 
@@ -13,11 +14,17 @@ import {
 export class UpsertOneSubscriptionPort {
   constructor(
     private readonly clsManager: ClsManager,
+    private readonly schoolRepository: SchoolRepository,
     private readonly subscriptionRepository: SubscriptionRepository,
   ) {}
 
   @Transaction()
   async execute(data: UpsertOneSubscriptionData): Promise<UpsertOneSubsriptionView> {
+    const school = await this.schoolRepository.findOneById(data.schoolId);
+    if (!school) {
+      throw new UpsertOneSubsriptionException('school notfound.');
+    }
+
     const currUser = this.clsManager.getItem('currUser');
 
     const subscription = (

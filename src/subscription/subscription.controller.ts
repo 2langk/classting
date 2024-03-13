@@ -5,6 +5,7 @@ import { Controller } from '@nestjs/common';
 import {
   UpsertOneSubscriptionData,
   UpsertOneSubscriptionPort,
+  UpsertOneSubsriptionException,
   UpsertOneSubsriptionView,
 } from './upsert-one-subscription';
 
@@ -26,7 +27,7 @@ export class SubscriptionController {
    * @return 구독 id
    */
   @Auth('student')
-  @TypedException<UpsertOneSubscriptionPort>(400)
+  @TypedException<UpsertOneSubsriptionException>(400)
   @TypedRoute.Post('/')
   async upsertOneSubscription(
     @TypedBody() data: UpsertOneSubscriptionData,
