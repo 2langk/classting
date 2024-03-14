@@ -47,7 +47,7 @@ describe('학교 관리자는 학교를 페이지를 운영하여 학교 소식�
     }
   });
 
-  test('관리자 유저는 지역, 학교명으로 학교페이지를 생성할 수 있다.', async () => {
+  test('관리자 유저는 지역, 학교명으로 학교 페이지를 생성할 수 있다.', async () => {
     const createRes = await api.schools.createOneSchool(connection, {
       name: 'test school',
       region: 'test region',
