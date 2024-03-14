@@ -5,6 +5,7 @@ import { IConnection } from '@nestia/fetcher';
 import { api } from './@sdk/api';
 
 export const cleanUpDatabase = async () => {
+  jest.setTimeout(30000);
   execSync('npx tsnd --env-file=config/dotenv/.env.test config/script/init-database.ts');
 };
 

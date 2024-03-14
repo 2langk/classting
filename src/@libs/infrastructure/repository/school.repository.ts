@@ -46,15 +46,24 @@ export class SchoolRepository extends BaseRepository<SchoolAggregate> {
   }
 
   async findMany(params: {
-    cursorId: number;
-    cursorOp: 'gt' | 'lt';
+    // filter
+    ids?: number[] | undefined;
+    // pagination
+    cursor: {
+      column: Prisma.SchoolScalarFieldEnum;
+      value: string | number | Date | undefined;
+      op: 'lt' | 'gt';
+    };
     pageSize: number;
     orderBy: Prisma.schoolOrderByWithRelationInput;
   }): Promise<SchoolAggregate[]> {
     return this.queryRunner('school')
       .findMany({
         where: {
-          id: this.wrapCondition(params.cursorId, params.cursorOp),
+          AND: [
+            { [params.cursor.column]: this.wrapCondition(params.cursor.value, params.cursor.op) },
+            { id: this.wrapCondition(params.ids, 'in') },
+          ],
         },
         take: params.pageSize,
         orderBy: params.orderBy,

@@ -8,8 +8,12 @@ describe('find-many-school', () => {
     await setupSchool(100);
   });
 
-  it('success to find many school. (cursor === undefined, pageSize === 10)', async () => {
-    const res = await api.schools.findManySchool(connection, { cursorId: undefined, pageSize: 10 });
+  it('success to find many school. (100..91)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: undefined,
+      cursorId: undefined,
+      pageSize: 10,
+    });
 
     if (res.status == 200) {
       expect(res.data.schools.length).toBe(10);
@@ -21,8 +25,12 @@ describe('find-many-school', () => {
     }
   });
 
-  it('success to find many school. (cursor === 61, pageSize === 10)', async () => {
-    const res = await api.schools.findManySchool(connection, { cursorId: 61, pageSize: 10 });
+  it('success to find many school. (60..51)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: undefined,
+      cursorId: 61,
+      pageSize: 10,
+    });
 
     if (res.status == 200) {
       expect(res.data.schools.length).toBe(10);
@@ -34,8 +42,12 @@ describe('find-many-school', () => {
     }
   });
 
-  it('success to find many school. (cursor === undefined, pageSize === 20)', async () => {
-    const res = await api.schools.findManySchool(connection, { cursorId: undefined, pageSize: 20 });
+  it('success to find many school. (100..81)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: undefined,
+      cursorId: undefined,
+      pageSize: 20,
+    });
 
     if (res.status == 200) {
       expect(res.data.schools.length).toBe(20);
@@ -49,8 +61,12 @@ describe('find-many-school', () => {
     }
   });
 
-  it('success to find many school. (cursor === 41, pageSize === 20)', async () => {
-    const res = await api.schools.findManySchool(connection, { cursorId: 41, pageSize: 20 });
+  it('success to find many school. (40..21)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: undefined,
+      cursorId: 41,
+      pageSize: 20,
+    });
 
     if (res.status == 200) {
       expect(res.data.schools.length).toBe(20);
@@ -59,6 +75,36 @@ describe('find-many-school', () => {
           .fill(40)
           .map((each, i) => each - i),
       );
+    } else {
+      fail(res.data.message);
+    }
+  });
+
+  it('success to find many school. (100..20 step20)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: [100, 80, 60, 40, 20],
+      cursorId: undefined,
+      pageSize: 10,
+    });
+
+    if (res.status == 200) {
+      expect(res.data.schools.length).toBe(5);
+      expect(res.data.schools.map((each) => each.id)).toEqual([100, 80, 60, 40, 20]);
+    } else {
+      fail(res.data.message);
+    }
+  });
+
+  it('success to find many school. (40..20 step20)', async () => {
+    const res = await api.schools.findManySchool(connection, {
+      ids: [100, 80, 60, 40, 20],
+      cursorId: 60,
+      pageSize: 10,
+    });
+
+    if (res.status == 200) {
+      expect(res.data.schools.length).toBe(2);
+      expect(res.data.schools.map((each) => each.id)).toEqual([40, 20]);
     } else {
       fail(res.data.message);
     }

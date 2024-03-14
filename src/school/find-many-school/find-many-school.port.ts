@@ -11,8 +11,8 @@ export class FindManySchoolPort {
   @Transaction()
   async execute(data: FindManySchoolData): Promise<FindManySchoolView> {
     const schools = await this.schoolRepository.findMany({
-      cursorId: data.cursorId || Number.MAX_SAFE_INTEGER,
-      cursorOp: 'lt',
+      ids: data.ids,
+      cursor: { column: 'id', value: data.cursorId, op: 'lt' },
       pageSize: data.pageSize,
       orderBy: { id: 'desc' },
     });

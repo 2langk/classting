@@ -1,5 +1,6 @@
 import { AppException } from '@libs/common';
 export interface FindManySchoolData {
+  ids: number[] | undefined;
   cursorId: number | undefined;
   pageSize: number;
 }

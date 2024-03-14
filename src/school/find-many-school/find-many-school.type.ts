@@ -1,7 +1,7 @@
 import { AppException } from '@libs/common';
 
 export interface FindManySchoolData {
-  // todo: filter ids
+  ids: number[] | undefined;
   cursorId: number | undefined;
   pageSize: number;
 }
