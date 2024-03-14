@@ -29,6 +29,8 @@ describe('find-many-news', () => {
           .fill(100)
           .map((each, idx) => each - idx),
       );
+    } else {
+      fail(res.data.message);
     }
   });
 
@@ -43,6 +45,8 @@ describe('find-many-news', () => {
     if (res.status === 200) {
       expect(res.data.news.length).toEqual(20);
       expect(F.toUnique(res.data.news.map((each) => each.schoolId))).toEqual([1]);
+    } else {
+      fail(res.data.message);
     }
   });
 
@@ -57,6 +61,8 @@ describe('find-many-news', () => {
     if (res.status === 200) {
       expect(res.data.news.length).toEqual(40);
       expect(F.toUnique(res.data.news.map((each) => each.schoolId)).sort()).toEqual([2, 4]);
+    } else {
+      fail(res.data.message);
     }
   });
 
@@ -71,6 +77,8 @@ describe('find-many-news', () => {
     if (res.status === 200) {
       expect(res.data.news.length).toEqual(10);
       expect(F.toUnique(res.data.news.map((each) => each.schoolId)).sort()).toEqual([3]);
+    } else {
+      fail(res.data.message);
     }
   });
 
@@ -96,6 +104,8 @@ describe('find-many-news', () => {
     if (res.status === 200) {
       expect(res.data.news.length).toEqual(5);
       expect(F.toUnique(res.data.news.map((each) => each.schoolId)).sort()).toEqual([3]);
+    } else {
+      fail(res.data.message);
     }
   });
 
@@ -120,6 +130,8 @@ describe('find-many-news', () => {
 
     if (res.status === 200) {
       expect(res.data.news.length).toEqual(10);
+    } else {
+      fail(res.data.message);
     }
   });
 });

@@ -99,6 +99,10 @@ export const setupSchool = async (count: number) => {
   await Promise.all(promises);
 };
 
+/**
+ * !it depends on to `setupSchool` function.
+ * !should execute `setupSchool` first.
+ * */
 export const setupSchoolNews = async (params: { schoolIds: number[]; eachCount: number }) => {
   const adminSignIn = await api.users.sign_in.signInUser(connection, {
     email: 'setupSchoolAdmin@test.com',
