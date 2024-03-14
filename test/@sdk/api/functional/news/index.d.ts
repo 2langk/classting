@@ -1,4 +1,4 @@
-import type { IConnection, Primitive, IPropagation } from '@nestia/fetcher';
+import type { IConnection, Primitive, IPropagation, Resolved } from '@nestia/fetcher';
 import type {
   CreateOneNewsData,
   CreateOneNewsView,
@@ -8,6 +8,11 @@ import type {
   DeleteOneNewsView,
   DeleteOneNewsException,
 } from '../../../news/delete-one-news/delete-one-news.type';
+import type {
+  FindManyNewsData,
+  FindManyNewsView,
+  FindManNewsException,
+} from '../../../news/find-many-news/find-many-news.type';
 import type {
   UpdateOneNewsData,
   UpdateOneNewsView,
@@ -84,4 +89,26 @@ export declare namespace deleteOneNews {
     readonly status: null;
   };
   const path: (id: number) => string;
+}
+export declare function findManyNews(
+  connection: IConnection,
+  data: findManyNews.Query,
+): Promise<findManyNews.Output>;
+export declare namespace findManyNews {
+  type Query = Resolved<FindManyNewsData>;
+  type Output = IPropagation<{
+    200: FindManyNewsView;
+    400: FindManNewsException;
+  }>;
+  const METADATA: {
+    readonly method: 'GET';
+    readonly path: '/news';
+    readonly request: null;
+    readonly response: {
+      readonly type: 'application/json';
+      readonly encrypted: false;
+    };
+    readonly status: null;
+  };
+  const path: (data: findManyNews.Query) => string;
 }

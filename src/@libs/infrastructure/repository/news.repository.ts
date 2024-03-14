@@ -1,6 +1,7 @@
 import { UnwrapPromise } from '@libs/common';
 import { NewsAggregate } from '@libs/domain';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import { ClsManager } from '../manager';
 import { BaseRepository } from './base.repository';
@@ -44,6 +45,33 @@ export class NewsRepository extends BaseRepository<NewsAggregate> {
         // include: this.includeAll,
       })
       .then(this.convertToAgg);
+  }
+
+  async findMany(params: {
+    // filter
+    schoolIds?: number[] | undefined;
+    // pagination
+    cursor: {
+      column: Prisma.NewsScalarFieldEnum;
+      value: string | number | Date | undefined;
+      op: 'lt' | 'gt';
+    };
+    pageSize: number;
+    orderBy: Prisma.newsOrderByWithRelationInput;
+  }): Promise<NewsAggregate[]> {
+    return this.queryRunner('news')
+      .findMany({
+        where: {
+          AND: [
+            { [params.cursor.column]: this.wrapCondition(params.cursor.value, params.cursor.op) },
+            { school_id: this.wrapCondition(params.schoolIds, 'in') },
+          ],
+        },
+        take: params.pageSize,
+        orderBy: params.orderBy,
+        // include: this.includeAll,
+      })
+      .then((news) => news.map(this.convertToAgg) as NewsAggregate[]);
   }
 
   async saveOne(agg: NewsAggregate): Promise<number> {

@@ -1,6 +1,10 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.deleteOneNews = exports.updateOneNews = exports.createOneNews = void 0;
+exports.findManyNews =
+  exports.deleteOneNews =
+  exports.updateOneNews =
+  exports.createOneNews =
+    void 0;
 const PlainFetcher_1 = require('@nestia/fetcher/lib/PlainFetcher');
 async function createOneNews(connection, data) {
   return PlainFetcher_1.PlainFetcher.propagate(
@@ -80,4 +84,32 @@ exports.deleteOneNews = deleteOneNews;
   deleteOneNews.path = (id) =>
     `/news/${encodeURIComponent(id !== null && id !== void 0 ? id : 'null')}`;
 })(deleteOneNews || (exports.deleteOneNews = deleteOneNews = {}));
+async function findManyNews(connection, data) {
+  return PlainFetcher_1.PlainFetcher.propagate(
+    connection,
+    Object.assign(Object.assign({}, findManyNews.METADATA), { path: findManyNews.path(data) }),
+  );
+}
+exports.findManyNews = findManyNews;
+(function (findManyNews) {
+  findManyNews.METADATA = {
+    method: 'GET',
+    path: '/news',
+    request: null,
+    response: {
+      type: 'application/json',
+      encrypted: false,
+    },
+    status: null,
+  };
+  findManyNews.path = (data) => {
+    const variables = new URLSearchParams();
+    for (const [key, value] of Object.entries(data))
+      if (undefined === value) continue;
+      else if (Array.isArray(value)) value.forEach((elem) => variables.append(key, String(elem)));
+      else variables.set(key, String(value));
+    const location = '/news';
+    return 0 === variables.size ? location : `${location}?${variables.toString()}`;
+  };
+})(findManyNews || (exports.findManyNews = findManyNews = {}));
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 import { OmitProperties } from '@libs/common';
 import { Auth } from '@libs/middleware/auth.guard';
-import { TypedBody, TypedException, TypedParam, TypedRoute } from '@nestia/core';
+import { TypedBody, TypedException, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { Controller } from '@nestjs/common';
 
 import {
@@ -10,6 +10,12 @@ import {
   CreateOneNewsView,
 } from './create-one-news';
 import { DeleteOneNewsException, DeleteOneNewsPort, DeleteOneNewsView } from './delete-one-news';
+import {
+  FindManNewsException,
+  FindManyNewsData,
+  FindManyNewsPort,
+  FindManyNewsView,
+} from './find-many-news';
 import {
   UpdateOneNewsData,
   UpdateOneNewsException,
@@ -23,6 +29,7 @@ export class NewsController {
     private readonly createOneNewsPort: CreateOneNewsPort,
     private readonly updateOneNewsPort: UpdateOneNewsPort,
     private readonly deleteOneNewsPort: DeleteOneNewsPort,
+    private readonly findManyNewsPort: FindManyNewsPort,
   ) {}
 
   /**
@@ -81,5 +88,21 @@ export class NewsController {
   @TypedRoute.Delete('/:id')
   async deleteOneNews(@TypedParam('id') id: number): Promise<DeleteOneNewsView> {
     return this.deleteOneNewsPort.execute({ id });
+  }
+
+  /**
+   * 소식 목록 조회하기.
+   *
+   * @tag News
+   *
+   * @param data 필터 & 페이지네이션
+   *
+   * @return 소식 목록
+   */
+  @Auth('public')
+  @TypedException<FindManNewsException>(400)
+  @TypedRoute.Get('/')
+  async findManyNews(@TypedQuery() data: FindManyNewsData): Promise<FindManyNewsView> {
+    return this.findManyNewsPort.execute(data);
   }
 }
