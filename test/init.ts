@@ -4,8 +4,9 @@ import { IConnection } from '@nestia/fetcher';
 
 import { api } from './@sdk/api';
 
+jest.setTimeout(30000);
+
 export const cleanUpDatabase = async () => {
-  jest.setTimeout(30000);
   execSync('npx tsnd --env-file=config/dotenv/.env.test config/script/init-database.ts');
 };
 
@@ -94,6 +95,33 @@ export const setupSchool = async (count: number) => {
         region: 'asd',
       }),
     );
+
+  await Promise.all(promises);
+};
+
+export const setupSchoolNews = async (params: { schoolIds: number[]; eachCount: number }) => {
+  const adminSignIn = await api.users.sign_in.signInUser(connection, {
+    email: 'setupSchoolAdmin@test.com',
+    password: '12341234',
+  });
+
+  if (adminSignIn.status === 201) {
+    connection.headers.authorization = `Bearer ${adminSignIn.data.accessToken}`;
+  } else {
+    fail('fail to sign in to admin');
+  }
+
+  const promises = params.schoolIds.flatMap((schoolId) => {
+    return Array(params.eachCount)
+      .fill(0)
+      .map(() =>
+        api.news.createOneNews(connection, {
+          title: 'news-title',
+          contents: 'news-content',
+          schoolId,
+        }),
+      );
+  });
 
   await Promise.all(promises);
 };

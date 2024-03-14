@@ -12,8 +12,8 @@ export interface FindManyNewsView {
     id: number;
     title: string;
     contents: string;
-    // schoolId: number;
-    // adminId: number;
+    schoolId: number;
+    adminId: number;
   }[];
 }
 

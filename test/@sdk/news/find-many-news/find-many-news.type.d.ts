@@ -10,6 +10,8 @@ export interface FindManyNewsView {
     id: number;
     title: string;
     contents: string;
+    schoolId: number;
+    adminId: number;
   }[];
 }
 export declare class FindManNewsException extends AppException<'asd.'> {}
