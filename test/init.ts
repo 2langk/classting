@@ -4,9 +4,8 @@ import { IConnection } from '@nestia/fetcher';
 
 import { api } from './@sdk/api';
 
-jest.setTimeout(30000);
-
 export const cleanUpDatabase = async () => {
+  jest.setTimeout(30000);
   execSync('npx tsnd --env-file=config/dotenv/.env.test config/script/init-database.ts');
 };
 
@@ -65,7 +64,7 @@ export const setupUser = async (count = 3) => {
       }
     });
 
-  await Promise.all(promise);
+  await batchPromiseAll(promise);
 };
 
 export const setupSchool = async (count: number) => {
@@ -96,7 +95,7 @@ export const setupSchool = async (count: number) => {
       }),
     );
 
-  await Promise.all(promises);
+  await batchPromiseAll(promises);
 };
 
 /**
@@ -127,5 +126,25 @@ export const setupSchoolNews = async (params: { schoolIds: number[]; eachCount: 
       );
   });
 
-  await Promise.all(promises);
+  await batchPromiseAll(promises);
 };
+
+async function batchPromiseAll<T>(promises: Promise<T>[], batchSize = 10): Promise<T[]> {
+  const results: T[] = [];
+
+  for (let i = 0; i < promises.length; i += batchSize) {
+    const batchPromises = promises.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batchPromises);
+    results.push(...batchResults);
+  }
+
+  return results;
+}
+
+process.on('uncaughtException', (error: Error) => {
+  console.log(`Uncaught Exception: ${error.message}`);
+});
+
+process.on('unhandledRejection', (error: Error) => {
+  console.log(`Unhandled Rejection: ${error.message}`);
+});

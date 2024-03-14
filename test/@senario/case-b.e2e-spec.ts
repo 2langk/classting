@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import { api } from 'test/@sdk/api';
 import { cleanUpDatabase, connection, setupSchool, setupSchoolNews } from 'test/init';
 
